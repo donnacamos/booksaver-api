@@ -1,0 +1,2 @@
+class BookOwnership < ApplicationRecord
+end
