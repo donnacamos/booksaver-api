@@ -1,5 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
-  has_many :books
+  include FastJsonapi::ObjectSerializer
      attributes :id, :username, :email, :created_at, :updated_at
+     has_many :books
 end
 
