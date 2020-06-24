@@ -40,13 +40,14 @@ class Api::V1::BookOwnershipsController < ApplicationController
   
   
     private
+
     def set_book_ownership
       @book_ownership = BookOwnership.find(params[:id])
     end
   
    
     def book_ownership_params
-      params.require(:book_ownership).permit(:book_id, :book_id)
+      params.require(:book_ownership).permit(:book_id, :user_id)
     end
   
 end
