@@ -7,39 +7,45 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-User.where(username: "Donna").first_or_create(username: "Donna", email:"donna@test.com", password:"password")
-User.where(username: "Bilbo").first_or_create(username: "Bilbo", email:"bilbo@test.com", password:"password")
-User.where(username: "Gandalf").first_or_create(username: "Gandalf", email:"gandalf@test.com", password:"password")
+    DATA = {
+        :user_keys => ["username", "email", "password"],
+        :users => [
+          ["Donna", "donna@test.com", "donna"],
+          ["Gandalf", "gandalf@wizard.com", "gandalf"],
+          ["Bilbo", "bilbo@baggins.com", "bilbo"] 
+        ],
+      
+        :book_keys => ["user_id", "title", "author", "description"],
+        :books => [
+          [1, "The Hobbit", "JRR Tolkien", "A hobbit goes on an unexpected adventure with a wizard and 13 dwarves."],
+          [2, "The Mysterious Island", "Jules Vern", "A group of Yankee soldiers are marooned on an island and strange things keep happening to them."],
+          [3, "How To Train Your Dragon", "Cressida Cowell", "A young viking with the help of his toothless dragon has to use his head to save his people."]
+        ]
+    }
 
-    Book.where(title: "The Hobbit").first_or_create(title: "The Hobbit", 
-    author: "JRR Tolkien", 
-    description: "A hobbit goes on an unexpected adventure with a wizard and 13 dwarves.")
+    def main
+        make_users
+        make_books
+      end
+      
+      def make_users
+        DATA[:users].each do |user|
+          new_user = User.new
+          user.each_with_index do |attr, i|
+            new_user.send(DATA[:user_keys][i]+"=", attr)
+          end
+          new_user.save
+        end
+      end
+      
+      def make_books
+        DATA[:books].each do |book|
+          new_book = Book.new
+          book.each_with_index do |attr, i|
+            new_book.send(DATA[:book_keys][i]+"=", attr)
+          end
+          new_book.save
+        end
+      end
 
-    Book.where(title: "White Fang").first_or_create(title: "White Fang", 
-    author: "Jack London", 
-    description: "A wolf dog is tamed and befriended by a man and becomes a house dog.")
-
-
-    Book.where(title: "The Mysterious Island").first_or_create(title: "The Mysterious Island", 
-    author: "Jules Vern", 
-    description: "A group of Yankee soldiers are marooned on an island and strange things keep happening to them.")
-
-    Book.where(title: "How To Train Your Dragon").first_or_create(title: "How To Train Your Dragon", 
-    author: "Cressida Cowell", 
-    description: "A young viking with the help of his toothless dragon has to use his head to save his people.")
-
-    Book.where(title: "Little Women").first_or_create(title: "Little Women", 
-    author: "Louisa May Alcott", 
-    description: "A coming of age story of four sisters.")
-
-    Book.where(title: "Alice in Wonderland").first_or_create(title: "Alice in Wonderland", 
-    author: "Lewis Carroll", 
-    description: "A girl follows a white rabbit down his hole to a strange and wonderful land.")
-
-
-
-BookOwnership.where(user_id: 1, book_id: 1).first_or_create(user_id: 1, book_id: 1)
-BookOwnership.where(user_id: 1, book_id: 2).first_or_create(user_id: 1, book_id: 2)
-BookOwnership.where(user_id: 2, book_id: 3).first_or_create(user_id: 2, book_id: 3)
-BookOwnership.where(user_id: 2, book_id: 4).first_or_create(user_id: 2, book_id: 4)
-BookOwnership.where(user_id: 3, book_id: 5).first_or_create(user_id: 3, book_id: 5)
+      main
