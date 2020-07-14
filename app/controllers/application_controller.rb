@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
-    include ::ActionController::Cookies
+  include ActionController::Cookies
+    
   
     # Finds user by session ID if they are currently logged in
     def current_user
